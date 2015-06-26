@@ -57,8 +57,8 @@ public class AverageOfThreeNumbers{
         BigDecimal sum2 = (sum.add(n3));
         sum2 = sum2.setScale(8, RoundingMode.HALF_DOWN);
 
-        BigDecimal count = new BigDecimal("3");
-        BigDecimal average = (sum2.divide(count, 8, RoundingMode.HALF_DOWN));
+        int count = 3;
+        BigDecimal average = (sum2.divide(new BigDecimal(count), 8, RoundingMode.HALF_DOWN));
 
         System.out.println("Average is: " + average.toPlainString());
 
