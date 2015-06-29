@@ -6,64 +6,72 @@ import java.util.Scanner;
 
 public class AverageOfThreeNumbers{
     public static void main(String[] args) {
-        System.out.println("The average of three numbers.");
+
+        System.out.println("Average calculator. Please, input numbers:");
+        int i = 0;
+        BigDecimal [] numbers = new BigDecimal [i];
+
+        boolean isLoop = true;
+        do  {
+             numbers = ExpandArray(numbers, 1);
+             numbers[i] = InputBigDecimalChecker((i + 1));
+
+                 if (numbers [i].compareTo(BigDecimal.ZERO) == 0) {
+                     isLoop = false;
+                 } else {
+                     i++;
+                 }
+            } while (isLoop);
+
+        BigDecimal sum = BigDecimal.ZERO;
+        for (i=0; i<numbers.length; i++){
+            sum = sum.add(numbers[i]);
+            }
+
+        sum = sum.setScale(8, RoundingMode.HALF_DOWN);
+        BigDecimal average = (sum.divide(new BigDecimal((numbers.length - 1)), 8, RoundingMode.HALF_DOWN));
+
+        System.out.println("The average is: " + average.toPlainString());
+
+        System.exit(0);
+    }
+
+    public static BigDecimal InputBigDecimalChecker(int i) {
 
         Scanner scanner = new Scanner(System.in);
-
         BigDecimal n1 = BigDecimal.ZERO;
-        BigDecimal n2 = BigDecimal.ZERO;
-        BigDecimal n3 = BigDecimal.ZERO;
 
         boolean resumeLoop = true;
         do {
-            System.out.println("Please, input the first number");
-            if (scanner.hasNextBigDecimal()) {
-                n1 = scanner.nextBigDecimal();
-                System.out.println("Your input " + n1.toPlainString() + " as the 1st number");
+            System.out.println("Number " + i + ": (or type \"f\" to finish input)");
+
+            if (scanner.hasNext("f")) {
+                n1 = BigDecimal.ZERO;
+                scanner.close();
                 resumeLoop = false;
+
+            } else if (scanner.hasNextBigDecimal()) {
+                     n1 = scanner.nextBigDecimal();
+                     System.out.println("Ok. Number " + i + " is " + n1.toPlainString());
+                resumeLoop = false;
+
             } else {
                 System.out.println("Incorrect entry " + scanner.next() + ". You must enter numbers. Try again.");
             }
         }
         while (resumeLoop);
+        return n1;
+    }
 
-        boolean resumeLoop2 = true;
-        do {
-            System.out.println("Please, input the 2nd number");
-            if (scanner.hasNextBigDecimal()) {
-                n2 = scanner.nextBigDecimal();
-                System.out.println("Your input " + n2.toPlainString() + " as the 2nd number");
-                resumeLoop2 = false;
-            } else {
-                System.out.println("Incorrect entry " + scanner.next() + ". You must enter numbers. Try again.");
-            }
+    public static BigDecimal [] ExpandArray (BigDecimal inArray [], int expandBy) {
+
+        int initLength = inArray.length;
+        BigDecimal [] result = new BigDecimal [initLength + expandBy];
+
+        for (int i=0; i < inArray.length; i++) {
+            result [i] = inArray [i];
         }
-        while (resumeLoop2);
-
-        boolean resumeLoop3 = true;
-        do {
-            System.out.println("Please, input the 3rd number");
-            if (scanner.hasNextBigDecimal()) {
-                n3 = scanner.nextBigDecimal();
-                System.out.println("Your input " + n3.toPlainString() + " as the 3rd number");
-                resumeLoop3 = false;
-            } else {
-                System.out.println("Incorrect entry " + scanner.next() + ". You must enter numbers. Try again.");
-            }
-        }
-        while (resumeLoop3);
-
-        BigDecimal sum = (n1.add(n2));
-        BigDecimal sum2 = (sum.add(n3));
-        sum2 = sum2.setScale(8, RoundingMode.HALF_DOWN);
-
-        int count = 3;
-        BigDecimal average = (sum2.divide(new BigDecimal(count), 8, RoundingMode.HALF_DOWN));
-
-        System.out.println("Average is: " + average.toPlainString());
-
-        scanner.close();
-        System.exit(0);
+        return result;
     }
 }
 
