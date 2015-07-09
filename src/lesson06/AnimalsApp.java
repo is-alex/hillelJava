@@ -36,9 +36,36 @@ public class AnimalsApp {
         Cat cat = new Cat("Finn",true);
         System.out.print("Cat " + cat.getName() + ": ");
         cat.voice();
+        System.out.println("\n");
 
-
-
+        speech(crocodile);
+        speech(cat);
+        speech(giraffe);
+        speech(guideDog);
 
     }
+
+    public static void speech (Object a) {
+
+        System.out.print("Hello, ");
+        if ((a instanceof Pet) && (!((Pet) a).getName().equals(""))) {
+            System.out.print("my name is " + ((Pet) a).getName() + ". ");
+            if (a instanceof Dog) {
+                System.out.print("Woof! ");
+                if ((a instanceof GuideDog) && (((GuideDog) a).isTrained())) {
+                    System.out.print("I can take you home.");
+                }
+            } else if (a instanceof Cat) {
+                System.out.print("Meow! ");
+            }
+        } else if (a instanceof WildAnimal) {
+            System.out.print("I am a wild animal");
+            if (((WildAnimal) a).isPredator()) {
+                System.out.print(" and I am angry. ");
+            }
+
+        }
+        System.out.println("\n");
+    }
+
 }

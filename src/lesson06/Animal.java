@@ -10,6 +10,7 @@ public class Animal {
     private String color;
 
 
+
     public Animal(int id, int age, double weight, String color) {
         this.id = id;
         this.age = age;
@@ -24,8 +25,8 @@ public class Animal {
         this.color = "";
     }
 
-    public void voice (String string) {
 
+    public void voice (String string) {
         System.out.println(string);
     }
 
