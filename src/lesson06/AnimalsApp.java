@@ -9,6 +9,8 @@ public class AnimalsApp {
         Animal animal = new Animal();
         System.out.println("Test animal id: " + animal.getId() + "\n");
 
+        Fish fish = new Fish("Teddy",false);
+
         Giraffe giraffe = new Giraffe(1,23,55.83,"orange");
         System.out.println("Giraffe: id " + giraffe.getId() + ", age: " + giraffe.getAge() + ", weight: "
                 + giraffe.getWeight() + ", color: " + giraffe.getColor() + "\n");
@@ -38,33 +40,47 @@ public class AnimalsApp {
         cat.voice();
         System.out.println("\n");
 
+        System.out.println("Corcodile: ");
         speech(crocodile);
+
+        System.out.println("Cat: ");
         speech(cat);
+
+        System.out.println("Giraffe: ");
         speech(giraffe);
+
+        System.out.println("GuideDog: ");
         speech(guideDog);
+
+        System.out.println("Fish: ");
+        speech(fish);
 
     }
 
 
     public static void speech (Object a) {
 
-        System.out.print("Hello, ");
-        if ((a instanceof Pet) && (!((Pet) a).getName().equals(""))) {
-            System.out.print("my name is " + ((Pet) a).getName() + ". ");
-            if (a instanceof Dog) {
-                System.out.print("Woof! ");
-                if ((a instanceof GuideDog) && (((GuideDog) a).isTrained())) {
-                    System.out.print("I can take you home.");
+        if ((a instanceof Fish)) {
+            System.out.print("...");
+        } else {
+            System.out.print("Hello, ");
+            if ((a instanceof Pet) && (!((Pet) a).getName().equals(""))) {
+                System.out.print("my name is " + ((Pet) a).getName() + ". ");
+                if (a instanceof Dog) {
+                    System.out.print("Woof! ");
+                    if ((a instanceof GuideDog) && (((GuideDog) a).isTrained())) {
+                        System.out.print("I can take you home.");
+                    }
+                } else if (a instanceof Cat) {
+                    System.out.print("Meow! ");
                 }
-            } else if (a instanceof Cat) {
-                System.out.print("Meow! ");
-            }
-        } else if (a instanceof WildAnimal) {
-            System.out.print("I am a wild animal");
-            if (((WildAnimal) a).isPredator()) {
-                System.out.print(" and I am angry. ");
-            }
+            } else if (a instanceof WildAnimal) {
+                System.out.print("I am a wild animal");
+                if (((WildAnimal) a).isPredator()) {
+                    System.out.print(" and I am angry. ");
+                }
 
+            }
         }
         System.out.println("\n");
     }
