@@ -24,8 +24,9 @@ public class Animal {
         this.color = "";
     }
 
-    public void voice () {
-        System.out.println("Hello...");
+    public void voice (String string) {
+
+        System.out.println(string);
     }
 
 

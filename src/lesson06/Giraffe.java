@@ -12,4 +12,8 @@ public class Giraffe  extends WildAnimal {
     public Giraffe(int id, int age, double weight, String color) {
         super(id, age, weight, color, false);
     }
+
+    public void voice() {
+        super.voice("uu-uu!");
+    }
 }

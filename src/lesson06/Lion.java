@@ -12,4 +12,8 @@ public class Lion  extends WildAnimal {
     public Lion() {
         super(true);
     }
+
+    public void voice() {
+        super.voice("Rr-rr-rr!");
+    }
 }

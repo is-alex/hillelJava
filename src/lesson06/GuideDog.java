@@ -17,6 +17,10 @@ public class GuideDog extends Dog {
         this.isTrained = isTrained;
     }
 
+    public void voice() {
+        super.voice("Bark-bark!");
+    }
+
     public void takeHome() {
         System.out.println(getName() + ": Taking home...");
     }

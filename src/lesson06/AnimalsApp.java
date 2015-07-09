@@ -28,9 +28,14 @@ public class AnimalsApp {
             System.out.println(guideDog.getColor() + " guide dog " + guideDog.getName()+ " is trained.");
             guideDog.voice();
             guideDog.takeHome();
+            System.out.println();
         } else {
-            System.out.println("Attention! " + guideDog.getColor() + " guide dog " + guideDog.getName() + " is not trained.");
+            System.out.println("Attention! " + guideDog.getColor() + " guide dog " + guideDog.getName() + " is not trained." + "\n");
         }
+
+        Cat cat = new Cat("Finn",true);
+        System.out.print("Cat " + cat.getName() + ": ");
+        cat.voice();
 
 
 
