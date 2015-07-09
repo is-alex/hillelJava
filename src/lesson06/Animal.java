@@ -9,8 +9,6 @@ public class Animal {
     private double weight;
     private String color;
 
-
-
     public Animal(int id, int age, double weight, String color) {
         this.id = id;
         this.age = age;

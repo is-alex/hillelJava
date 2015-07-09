@@ -45,6 +45,7 @@ public class AnimalsApp {
 
     }
 
+
     public static void speech (Object a) {
 
         System.out.print("Hello, ");
