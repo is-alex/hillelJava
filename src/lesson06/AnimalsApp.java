@@ -26,6 +26,7 @@ public class AnimalsApp {
         GuideDog guideDog = new GuideDog(99,5,38.255,"white","Oliver",true,true);
         if (guideDog.isTrained()) {
             System.out.println(guideDog.getColor() + " guide dog " + guideDog.getName()+ " is trained.");
+            guideDog.voice();
             guideDog.takeHome();
         } else {
             System.out.println("Attention! " + guideDog.getColor() + " guide dog " + guideDog.getName() + " is not trained.");
