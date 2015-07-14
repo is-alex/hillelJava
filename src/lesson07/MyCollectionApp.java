@@ -9,7 +9,8 @@ public class MyCollectionApp {
         String b = "bb";
         BigDecimal c = new BigDecimal(2);
 
-        MyCollection test = new MyCollection(3);
+        MyCollection test = new MyCollection(33);
+        MyCollection test2 = new MyCollection();
 
         System.out.println("Size is: " + test.size());
 
@@ -22,8 +23,12 @@ public class MyCollectionApp {
         System.out.println("Contains int a " + test.contains(a));
         System.out.println("Contains null: " + test.contains(null));
 
-        System.out.println("Remove int a: " + test.remove(a));
+        System.out.println("Remove String b: " + test.remove(b));
 
+        test2.add(b);
+        System.out.println("Size is: " + test.size());
+        test.addAll(test2);
+        System.out.println("Size is: " + test.size());
         test.clear();
 
     }
