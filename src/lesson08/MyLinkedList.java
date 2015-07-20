@@ -1,16 +1,29 @@
 package lesson08;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 
-public class MyLinkedList { // implements Iterable<Object>  {
+public class MyLinkedList implements Collection {
+
     private int size;
     private Element first;
     private Element last;
 
+    private Object head;
+
     public MyLinkedList() {
         this.size = 0;
+    }
+
+    public Object getHead() {
+        head = first.item;
+        return head;
+    }
+
+    public MyLinkedList getTail() {
+
+        this.unlink(first);
+        return this;
     }
 
     public int size() {
@@ -23,15 +36,16 @@ public class MyLinkedList { // implements Iterable<Object>  {
 
     public boolean add (Object o) {
         Element before = this.last;
-        Element after = new Element(before,o,null);
+        Element after = new Element(before, o, null);
         this.last = after;
+
         if(before == null) {
             this.first = after;
         } else {
             before.next = after;
         }
 
-        ++this.size;
+        this.size++;
         return true;
     }
 
@@ -61,25 +75,43 @@ public class MyLinkedList { // implements Iterable<Object>  {
 
         return false;
     }
-    
-    
+
+
+    @Override
+    public Object[] toArray() {
+        Object[] arr = new Object[this.size];
+        int size = 0;
+
+        for(Element element = this.first; element != null; element = element.next) {
+            arr[size++] = element.item;
+        }
+
+        return arr;
+    }
+
+
+    @Override
+    public Object[] toArray(Object[] objects) {
+        return new Object[0];                   //TODO
+    }
+
     public Object unlink (Element element){
 
         Object object = element.item;
-        Element before = element.next;
-        Element after = element.prev;
+        Element next = element.next;
+        Element prev = element.prev;
 
-        if(after == null) {
-            this.first = before;
+        if(prev == null) {
+            this.first = next;
         } else {
-            after.next = before;
+            prev.next = next;
             element.prev = null;
         }
 
-        if(before == null) {
-            this.last = after;
+        if(next == null) {
+            this.last = prev;
         } else {
-            before.prev = after;
+            next.prev = prev;
             element.next = null;
         }
 
@@ -97,6 +129,7 @@ public class MyLinkedList { // implements Iterable<Object>  {
                     return true;
                 }
             }
+
         } else {
             for(element = this.first; element != null; element = element.next) {
                 if(o.equals(element.item)) {
@@ -122,26 +155,60 @@ public class MyLinkedList { // implements Iterable<Object>  {
         this.size = 0;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        return (this == o);
+    }
+
 
     public void print (){
         Element element;
-        System.out.print("MyLinkedList: ");
-
-        for(element = this.first; element != null; element = element.next)   { //FIXME, NullPointerException
-            System.out.print(element.item.toString() + "; ");
+        for(element = this.first; element != null; element = element.next)   {
+            if (element.item==null){
+                System.out.print("null; ");
+            } else {
+                System.out.print(element.item.toString() + "; ");
+            }
         }
         System.out.println();
-        System.out.println("Empty:  " + isEmpty());
-        System.out.println("Size is: " + size() + "\n");
+
 
     }
 
-    public boolean addAll(Collection c) {
-        for (Object o : c){
-            add(o);
+        @Override
+        public boolean addAll(Collection c) {
+
+        Object[] o = c.toArray();
+        int objectLength = o.length;
+        if((objectLength == 0)) {
+            return false;
+        } else {
+            Element prev;
+            prev = this.last;
+
+            Object[] temp1 = o;
+
+            for(int i = 0; i < o.length; i++) {
+                Object newObject = temp1[i];
+                Element el = new Element(prev, newObject, null);
+                if(prev == null) {
+                    this.first = el;
+                } else {
+                    prev.next = el;
+                }
+
+                prev = el;
+            }
+
+            this.last = prev;
+
+            this.size += objectLength;
+
+            return true;
         }
-        return true;
     }
+
+
 
     public boolean containsAll(Collection c) {
         for (Object o : c) {
@@ -180,6 +247,42 @@ public class MyLinkedList { // implements Iterable<Object>  {
         return result;
     }
 
+    public void printBackwards (){
+        Element element;
+        for(element = this.last; element != null; element = element.prev) {if (element.item==null){System.out.print("null; ");
+            } else { System.out.print(element.item.toString() + "; ");
+            }
+        }
+    }
+
+
+    @Override
+    public Iterator iterator() {
+        return new MyLinkedListIterator(first);
+    }
+
+
+    private static class MyLinkedListIterator implements Iterator<Object> {
+        private Element currentElement;
+
+        public MyLinkedListIterator(Element element) {
+            this.currentElement = element;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return currentElement != null;
+        }
+
+        @Override
+        public Object next() {
+            Object toReturn = currentElement.item;
+            currentElement = currentElement.next;
+            return toReturn;
+        }
+
+    }
+
 
     private static class Element {
         Object item;
@@ -193,12 +296,5 @@ public class MyLinkedList { // implements Iterable<Object>  {
         }
 
     }
-
-
-//    @Override
-//    public Iterator<Object> iterator() {
-//        return new MyLinkedListIterator(this.first);
-//    }
-
 
 }
