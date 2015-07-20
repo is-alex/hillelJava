@@ -1,4 +1,4 @@
-package paintconsumtion;
+package paintconsumption;
 
 
 import java.math.BigDecimal;

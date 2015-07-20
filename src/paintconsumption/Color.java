@@ -1,4 +1,4 @@
-package paintconsumtion;
+package paintconsumption;
 
 
 public abstract class Color {
