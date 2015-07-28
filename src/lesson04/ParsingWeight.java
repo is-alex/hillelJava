@@ -138,9 +138,9 @@ public class ParsingWeight {
             } while (resumeLoop);
 
 
-         input = ((new BigDecimal(inputChecker)).multiply(new BigDecimal(units [index][1]))).toString();
+        String total = ((new BigDecimal(inputChecker)).multiply(new BigDecimal(units [index][1]))).toString();
 
-        return input;
+        return total;
 
     }
 
