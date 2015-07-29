@@ -11,7 +11,6 @@ public class MyTreeSet {
 
     }
 
-
     private void add (Node newNode){
 
         if (root==null){
