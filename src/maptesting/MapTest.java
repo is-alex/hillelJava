@@ -101,10 +101,14 @@ public class MapTest {
 
 
     public static void main(String[] args) {
-        System.out.println("============================================================================================================");
-        System.out.println("                |              ||         Add all       ||         Search        ||      Remove all       ||");
-        System.out.println("Num of students |  Created in  ||  TreeMap  |  HashMap  ||  TreeMap  |  HashMap  ||  TreeMap  |  HashMap  ||");
-        System.out.println("============================================================================================================");
+        System.out.println("========================================================" +
+                "====================================================");
+        System.out.println("                |              ||         Add all       " +
+                "||         Search        ||      Remove all       ||");
+        System.out.println("Num of students |  Created in  ||  TreeMap  |  HashMap  " +
+                "||  TreeMap  |  HashMap  ||  TreeMap  |  HashMap  ||");
+        System.out.println("==========================================================" +
+                "==================================================");
 
 
 
@@ -168,7 +172,8 @@ public class MapTest {
 
         }
 
-        System.out.println("============================================================================================================");
+        System.out.println("================================================" +
+                "============================================================");
 
 
         Student randomStudent = new Student(14561,
