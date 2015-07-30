@@ -1,11 +1,15 @@
 package students;
 
 
+import java.util.Arrays;
+
 public class Student {
 
     private int id;
     private String surname;
     private int[] marks;
+
+
 
     public Student(int i, String s, int[] m) {
         id = i;
@@ -66,5 +70,12 @@ public class Student {
 
     public int getMark(int lessonNum) {
         return this.marks[lessonNum];
+    }
+
+    @Override
+    public String toString() {
+        return "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", marks=" + Arrays.toString(marks);
     }
 }
