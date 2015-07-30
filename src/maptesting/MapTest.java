@@ -9,6 +9,8 @@ import java.util.TreeMap;
 public class MapTest {
 
     private static final char[] CH = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ".toCharArray();
+    private static long start = System.currentTimeMillis();
+    private static long duration = System.currentTimeMillis() - start;
 
     private  static int randomLength (int min, int max){
         SecureRandom random = new SecureRandom();
@@ -27,7 +29,6 @@ public class MapTest {
         return new String(temp);
     }
 
-
     private static int [] randomMarks (int min, int max) {
         SecureRandom random = new SecureRandom();
         int numOfMarks = randomLength(min,max);
@@ -38,6 +39,58 @@ public class MapTest {
         return marks;
     }
 
+    private static void putTest(Student[] students, TreeMap treeMap, HashMap hashMap){
+
+        start = System.currentTimeMillis();
+        for (int i=0;i<students.length;++i) {
+            treeMap.put(i,students[i]);
+        }
+        duration = System.currentTimeMillis() - start;
+        System.out.println("TreeMap: " + duration + " ms");
+
+        start = System.currentTimeMillis();
+        for (int i=0;i<students.length;++i) {
+            hashMap.put(i,students[i]);
+        }
+        duration = System.currentTimeMillis() - start;
+        System.out.println("HashMap: " + duration + " ms\n");
+
+    }
+
+    private static void containsTest (Student student, Student[] students, TreeMap treeMap, HashMap hashMap) {
+        start = System.currentTimeMillis();
+        for (int i = 0; i < students.length; ++i) {
+            treeMap.containsValue(student);
+        }
+        duration = System.currentTimeMillis() - start;
+        System.out.println("TreeMap: " + duration + " ms");
+
+        start = System.currentTimeMillis();
+        for (int i = 0; i < students.length; ++i) {
+            hashMap.containsValue(student);
+        }
+        duration = System.currentTimeMillis() - start;
+        System.out.println("HashMap: " + duration + " ms\n");
+
+    }
+
+    private static void removeTest (int treeMapKey, int hashMapKey, Student[] students, TreeMap treeMap, HashMap hashMap) {
+
+        start = System.currentTimeMillis();
+        for (int i = 0; i < students.length; ++i) {
+            treeMap.remove(treeMapKey);
+        }
+        duration = System.currentTimeMillis() - start;
+        System.out.println("TreeMap: " + duration + " ms");
+
+        start = System.currentTimeMillis();
+        for (int i = 0; i < students.length; ++i) {
+            hashMap.remove(hashMapKey);
+        }
+        duration = System.currentTimeMillis() - start;
+        System.out.println("HashMap: " + duration + " ms\n");
+
+    }
 
     public static void main(String[] args) {
         TreeMap treeMap = new TreeMap();
@@ -58,61 +111,27 @@ public class MapTest {
                             randomMarks(minNumOfMarks,maxNumOfMarks));
             students[i]=randomStudent;
         }
+
         duration = System.currentTimeMillis() - start;
-        for (int i = 0; i<10;++i) {
-            System.out.println("Data example: " + students[i+100].toString());
-        }
-        System.out.println();
-        System.out.println(numOfStudents + " elements added to an array in " + duration + " ms\n");//15 064 ms
+//        for (int i = 0; i<10;++i) {
+//            System.out.println("Data example: " + students[i+100].toString());
+//        }
+//        System.out.println();
+        System.out.println(numOfStudents + " elements added to an array in " + duration + " ms\n");
 
 
         System.out.println("Add:");
-        start = System.currentTimeMillis();
-        for (int i=0;i<numOfStudents;++i) {
-            treeMap.put(i,students[i]);
-        }
-        duration = System.currentTimeMillis() - start;
-        System.out.println("TreeMap: " + duration + " ms");
-
-        start = System.currentTimeMillis();
-        for (int i=0;i<numOfStudents;++i) {
-            hashMap.put(i,students[i]);
-        }
-        duration = System.currentTimeMillis() - start;
-        System.out.println("HashMap : " + duration + " ms\n");
-
+        putTest(students, treeMap, hashMap);
 
         System.out.println("Search:");
-        Student test = students[1999];
+        Student student = students[1999];
+        containsTest(student,students,treeMap,hashMap);
 
-        start = System.currentTimeMillis();
-        for (int i=0;i<numOfStudents;++i) {
-            treeMap.containsValue(test);
-        }
-        duration = System.currentTimeMillis() - start;
-        System.out.println("TreeMap: " + duration + " ms");
-
-        start = System.currentTimeMillis();
-        for (int i=0;i<numOfStudents;++i) {
-            hashMap.containsValue(test);
-        }
-        duration = System.currentTimeMillis() - start;
-        System.out.println("HashMap: " + duration + " ms\n");
 
         System.out.println("Delete by key:");
-        start = System.currentTimeMillis();
-        for (int i=0;i<numOfStudents;++i) {
-            treeMap.remove(1999);
-        }
-        duration = System.currentTimeMillis() - start;
-        System.out.println("TreeMap: " + duration + " ms");
-
-        start = System.currentTimeMillis();
-        for (int i=0;i<numOfStudents;++i) {
-            hashMap.remove(1998);
-        }
-        duration = System.currentTimeMillis() - start;
-        System.out.println("HashMap: " + duration + " ms\n");
+        int treeMapKey = 1999;
+        int hashMapKey = 1999;
+        removeTest(treeMapKey,hashMapKey,students,treeMap,hashMap);
 
 
     }
