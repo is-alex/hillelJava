@@ -6,7 +6,8 @@ import java.util.HashMap;
 
 public class TestApp {
     public static void main(String[] args) {
-        MyTreeSet tree = new MyTreeSet();
+
+        MyTreeSet <BigDecimal> tree = new MyTreeSet<>();
         BigDecimal a = new BigDecimal(10.25);
         BigDecimal b = new BigDecimal(-2015);
         BigDecimal c = new BigDecimal(-40004);
