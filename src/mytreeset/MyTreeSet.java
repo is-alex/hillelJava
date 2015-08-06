@@ -204,7 +204,7 @@ public class MyTreeSet <T> {
     }
 
 
-    private static class Node <T> implements Comparable {
+    private static class Node <T> implements Comparable <T>{
 
         private T data;
         private Node<T> left;
@@ -243,7 +243,6 @@ public class MyTreeSet <T> {
             Comparable comparableObject;
             Comparable thisDataComparable = (Comparable)this.getData();
 
-            try {
                 comparableObject = (Comparable)o;
 
                 if (thisDataComparable.compareTo(comparableObject)<0){
@@ -251,11 +250,6 @@ public class MyTreeSet <T> {
                 } else if (thisDataComparable.compareTo(comparableObject)>0){
                     return 1;
                 }
-
-            } catch (ClassCastException e){
-                System.err.println("Exception " + e + ". Unable to compare.");
-                System.exit(1);
-            }
 
             return 0;
 

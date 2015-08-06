@@ -26,14 +26,6 @@ public class TestApp {
         tree.add(g);
         tree.add(h);
 
-//        int testInt =34;
-//        HashMap hashMap = new HashMap();
-
-//        tree.add(testInt);  //testing exceptions
-//        tree.add(hashMap);   //testing exceptions
-
-//        System.out.println(tree.contains(testInt));  //testing exceptions
-//        System.out.println(tree.contains(hashMap));  //testing exceptions
 
         System.out.println("Contains " + a.toString() + ": " + tree.contains(a));
         System.out.println("Contains " + b.toString() + ": " + tree.contains(b));
