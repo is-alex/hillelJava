@@ -1,17 +1,17 @@
 package mytreeset;
 
-public class MyTreeSet {
+public class MyTreeSet <T> {
 
-    private Node root;
+    private Node <T> root;
 
-    public void add (Object object){
+    public void add (T object){
 
-        Node node = new Node(object);
+        Node <T> node = new Node(object);
         add(node);
 
     }
 
-    private void add (Node newNode){
+    private void add (Node <T> newNode){
 
         if (root==null){
             root = newNode;
@@ -22,10 +22,10 @@ public class MyTreeSet {
 
 
 
-    private void add (Node addTo, Node newNode){
+    private void add (Node <T> addTo, Node <T> newNode){
 
-        Object addToObject = addTo.getData();
-        Object newNodeObject = newNode.getData();
+        T addToObject = addTo.getData();
+        T newNodeObject = newNode.getData();
 
         Comparable addToComparable = (Comparable)addToObject;
         Comparable newNodeComparable = (Comparable)newNodeObject;
@@ -56,14 +56,14 @@ public class MyTreeSet {
 
 
 
-    public boolean contains (Object o){
+    public boolean contains (T o){
 
         return contains(root, o);
 
     }
 
 
-    private boolean contains (Node node, Object o){
+    private boolean contains (Node <T> node, T o){
 
         if (node==null){
             return false;
@@ -94,7 +94,7 @@ public class MyTreeSet {
 
 
 
-    private void toString (Node node, StringBuilder string) {
+    private void toString (Node <T> node, StringBuilder string) {
 
         if (node == null){
             string.append("");
@@ -115,14 +115,14 @@ public class MyTreeSet {
     }
 
 
-    public Object getMin(){
+    public T getMin(){
         return getMin(root);
     }
 
 
-    private Object getMin(Node node){
+    private T getMin(Node <T> node){
 
-        Node thisNode = node;
+        Node <T> thisNode = node;
 
         while (thisNode.getLeft() != null){
             thisNode = thisNode.getLeft();
@@ -132,15 +132,15 @@ public class MyTreeSet {
     }
 
 
-    public Object getMax(){
+    public T getMax(){
         return getMax(root);
     }
 
 
 
-    private Object getMax(Node node){
+    private T getMax(Node <T> node){
 
-        Node thisNode = node;
+        Node <T> thisNode = node;
 
         while (thisNode.getRight() != null){
             thisNode = thisNode.getRight();
@@ -154,7 +154,7 @@ public class MyTreeSet {
         return size(this.root);
     }
 
-    private int size (Node node) {
+    private int size (Node <T> node) {
 
         if (node == null){
             return 0;
@@ -164,13 +164,13 @@ public class MyTreeSet {
     }
 
 
-    public Object floor (Object o){
+    public T floor (T o){
         return floor(root,null, o);
     }
 
 
 
-    private Object floor (Node node, Object floor, Object o){
+    private T floor (Node <T> node, T floor, T o){
 
         if (node == null){
             return floor;
@@ -185,12 +185,12 @@ public class MyTreeSet {
     }
 
 
-    public Object ceiling (Object o){
+    public T ceiling (T o){
         return ceiling(root, null, o);
     }
 
 
-    private Object ceiling (Node node, Object ceiling, Object o){
+    private T ceiling (Node <T> node, T ceiling, T o){
 
         if (node == null){
             return ceiling;
@@ -204,36 +204,36 @@ public class MyTreeSet {
     }
 
 
-    private static class Node implements Comparable {
+    private static class Node <T> implements Comparable {
 
-        private Object data;
-        private Node left;
-        private Node right;
+        private T data;
+        private Node<T> left;
+        private Node<T> right;
 
-        public Node(Object data) {
+        public Node (T data) {
             this.data = data;
             this.left = null;
             this.right = null;
         }
 
 
-        public Object getData() {
+        public T getData() {
             return data;
         }
 
-        public Node getLeft() {
+        public Node <T> getLeft() {
             return left;
         }
 
-        public void setLeft(Node left) {
+        public void setLeft(Node <T> left) {
             this.left = left;
         }
 
-        public Node getRight() {
+        public Node <T> getRight() {
             return right;
         }
 
-        public void setRight(Node right) {
+        public void setRight(Node <T> right) {
             this.right = right;
         }
 
