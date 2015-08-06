@@ -3,19 +3,19 @@ package lesson08;
 import java.util.*;
 
 
-public class MyLinkedList implements Collection {
+public class MyLinkedList <T> implements Collection <T> {
 
     private int size;
-    private Element first;
-    private Element last;
+    private Element <T> first;
+    private Element <T> last;
 
-    private Object head;
+    private T head;
 
     public MyLinkedList() {
         this.size = 0;
     }
 
-    public Object getHead() {
+    public T getHead() {
         head = first.item;
         return head;
     }
@@ -34,7 +34,7 @@ public class MyLinkedList implements Collection {
         return (this.first == null);
     }
 
-    public boolean add (Object o) {
+    public boolean add (T o) {
         Element before = this.last;
         Element after = new Element(before, o, null);
         this.last = after;
@@ -49,6 +49,7 @@ public class MyLinkedList implements Collection {
         return true;
     }
 
+    @Override
     public boolean contains(Object o) {
 
         int index = 0;
@@ -95,9 +96,9 @@ public class MyLinkedList implements Collection {
         return new Object[0];                   //TODO
     }
 
-    public Object unlink (Element element){
+    public T unlink (Element <T> element){
 
-        Object object = element.item;
+        T object = element.item;
         Element next = element.next;
         Element prev = element.prev;
 
@@ -120,6 +121,7 @@ public class MyLinkedList implements Collection {
         return object;
     }
 
+    @Override
     public boolean remove (Object o) {
         Element element;
         if(o == null) {
@@ -209,7 +211,7 @@ public class MyLinkedList implements Collection {
     }
 
 
-
+    @Override
     public boolean containsAll(Collection c) {
         for (Object o : c) {
             if (!contains(o)) {
@@ -219,6 +221,7 @@ public class MyLinkedList implements Collection {
         return true;
     }
 
+    @Override
     public boolean removeAll(Collection c) {
         boolean removed = false;
         for (Object o:c){
@@ -229,6 +232,7 @@ public class MyLinkedList implements Collection {
         return removed;
     }
 
+    @Override
     public boolean retainAll(Collection c) {
         boolean result = false;
         MyLinkedList temp = new MyLinkedList();
@@ -284,12 +288,12 @@ public class MyLinkedList implements Collection {
     }
 
 
-    private static class Element {
-        Object item;
-        Element prev;
-        Element next;
+    private static class Element <T> {
+        T item;
+        Element <T> prev;
+        Element <T> next;
 
-        public Element(Element prev, Object item, Element next) {
+        public Element(Element <T> prev, T item, Element<T> next) {
             this.item = item;
             this.prev = prev;
             this.next = next;

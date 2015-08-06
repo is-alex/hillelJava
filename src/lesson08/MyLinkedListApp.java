@@ -8,19 +8,22 @@ public class MyLinkedListApp {
     public static void main(String[] args) {
 
         int a = 1;
-        double b = 2.22;
-        String string = "Hello";
-        BigDecimal bigDecimal = new BigDecimal(123456789);
+        int b = 22;
+/*        String string = "Hello";
+        BigDecimal bigDecimal = new BigDecimal(123456789);*/
 
-        MyLinkedList list = new MyLinkedList();
+        MyLinkedList<Integer> list = new MyLinkedList<>();
         list.add(a);
         list.add(b);
+        list.add(b);
         list.add(null);
-        list.add(string);
+
+/*        list.add(string);
         list.add(bigDecimal);
-        list.add(null);
+        list.add(null);*/
         System.out.println("List1 isEmpty:  " + list.isEmpty());
         System.out.println("Size of list1: " + list.size() + "\n");
+        list.print();
 
         System.out.println("Contains a : " + list.contains(a));
         list.remove(b);
@@ -31,6 +34,7 @@ public class MyLinkedListApp {
         System.out.print("Extracting tail: ");
         list.getTail().print();
         System.out.println("Size of list1: " + list.size() + "\n");
+
 
         ArrayList list2  = new ArrayList();
         for (int i=0;i<10;i++) {
