@@ -4,30 +4,38 @@ import java.math.RoundingMode;
 import java.util.Scanner;
 
 public class MySimpleCalc {
-    public static void main(String[] args) {
-        System.out.println("mySimpleCalc: Welcome!");
 
+    private static int count = 1;
+
+    private static BigDecimal getNum(){
         Scanner scanner = new Scanner(System.in);
-
-        BigDecimal num1 = BigDecimal.ZERO;
-        BigDecimal num2 = BigDecimal.ZERO;
-
+        BigDecimal result = BigDecimal.ZERO;
 
         boolean resumeLoop = true;
         do {
-            System.out.println("Please, input the first number");
+            System.out.println("Please, input number " + count + ": ");
             if (scanner.hasNextBigDecimal()) {
-                num1 = scanner.nextBigDecimal();
-                System.out.println("Your input " + num1.toPlainString() + " as the first number");
+                result = scanner.nextBigDecimal();
+                System.out.println("Your input " + result.toPlainString() + " as number " + count);
                 resumeLoop = false;
             } else {
                 System.out.println("Incorrect entry " + scanner.nextLine() + ". You must enter numbers. Try again.");
             }
         }
         while (resumeLoop);
+        count++;
+        return result;
 
+    }
 
-        boolean resumeLoop2 = true;
+    public static void main(String[] args) {
+        System.out.println("mySimpleCalc: Welcome!");
+
+        Scanner scanner = new Scanner(System.in);
+
+        BigDecimal num1 = getNum();
+
+        boolean resumeLoop = true;
         String sign;
         do {
             System.out.println("Please, input the plus sign (+) to add, the minus sign (-) to subtract, \n" +
@@ -36,27 +44,14 @@ public class MySimpleCalc {
             if (sign.equals("+") || sign.equals("-") || sign.equals("*") || sign.equals("/")) {
 
                 System.out.println("Your input is " + sign);
-                resumeLoop2 = false;
+                resumeLoop = false;
             } else {
                 System.out.println("Unknown operator " + sign + ". Try again.");
             }
         }
-        while (resumeLoop2);
+        while (resumeLoop);
 
-
-        boolean resumeLoop3 = true;
-        do {
-            System.out.println("Please, input the second number.");
-            if (scanner.hasNextBigDecimal()) {
-                num2 = scanner.nextBigDecimal();
-                System.out.println("Your input " + num2.toPlainString() + " as the second number.");
-                resumeLoop3 = false;
-            } else {
-                System.out.println("Incorrect entry " + scanner.nextLine() + ". You must enter numbers. Try again.");
-            }
-        }
-        while (resumeLoop3);
-
+        BigDecimal num2 = getNum();
 
         BigDecimal sum = (num1.add(num2));
         sum = sum.setScale(8, RoundingMode.HALF_DOWN);
