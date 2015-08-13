@@ -40,6 +40,18 @@ public class TestApp {
         System.out.println("Floor: " + tree.floor(d1));
         System.out.println("Ceiling: " + tree.ceiling(d1));
 
+// testing exceptions
+        MyTreeSet treeSet = new MyTreeSet();
+        HashMap x = new HashMap();
+        HashMap z = new HashMap();
+
+        treeSet.add(x);
+//        treeSet.add(z);
+//        treeSet.add(null);
+//        treeSet.add("test");
+//        System.out.println(treeSet.contains(1));
+//        System.out.println(treeSet.contains(null));
+
     }
 
 }
