@@ -119,8 +119,8 @@ public class MapTest {
         int minNumOfMarks = 0;
         int maxNumOfMarks = 35;
         int studentIdToSearch = 75;
-        int treeMapRemoveByKey = 89;
-        int hashMapRemoveByKey = 89;
+//        int treeMapRemoveByKey = 89;
+//        int hashMapRemoveByKey = 89;
         long start = System.currentTimeMillis();
         long duration = System.currentTimeMillis() - start;
 
@@ -166,8 +166,8 @@ public class MapTest {
             System.out.print(" ms||\n");
 
             studentIdToSearch = numOfStudents/5;
-            treeMapRemoveByKey = numOfStudents/5;
-            hashMapRemoveByKey = numOfStudents/5;
+//            treeMapRemoveByKey = numOfStudents/5;
+//            hashMapRemoveByKey = numOfStudents/5;
             Arrays.fill(students,null);
 
         }
