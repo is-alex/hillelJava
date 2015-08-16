@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 public class Student implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private int id;
     private String surname;
     private int[] marks;
