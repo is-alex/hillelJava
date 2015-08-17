@@ -12,12 +12,12 @@ public class MapTest {
     private static final char[] CH = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ".toCharArray();
     private static long start = System.currentTimeMillis();
 
-    private  static int randomLength (int min, int max){
+    public  static int randomLength (int min, int max){
         SecureRandom random = new SecureRandom();
         return random.nextInt((max-min)+1)+min;
     }
 
-    private static String randomSurname(int min, int max) {
+    public static String randomSurname(int min, int max) {
         SecureRandom random = new SecureRandom();
         int numOfChars = randomLength(min,max);
         char[] temp = new char[numOfChars];
@@ -29,7 +29,7 @@ public class MapTest {
         return new String(temp);
     }
 
-    private static int [] randomMarks (int min, int max) {
+    public static int [] randomMarks (int min, int max) {
         SecureRandom random = new SecureRandom();
         int numOfMarks = randomLength(min,max);
         int [] marks = new int[numOfMarks];
