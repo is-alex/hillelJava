@@ -58,11 +58,7 @@ public class Test extends JFrame {
         addStudent.addActionListener(actionEvent -> {
             display.setText("");
             Output output = new Output(getFilePath());
-            try {
-                output.write(student);
-            } catch (IOException e) {
-                e.printStackTrace();//FIXME
-            }
+            output.write(student);
             display.setText("A student added");
             showStudent.setEnabled(true);
         });
@@ -70,14 +66,7 @@ public class Test extends JFrame {
         showStudent.addActionListener(actionEvent -> {
             display.setText("");
             Input input = new Input(filePath);
-
-            try {
-                display.setText(input.read().toString());
-            } catch (IOException e) {
-                e.printStackTrace();//FIXME
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            display.setText(input.read().toString());
             addStudent.setEnabled(false);
 
         });
