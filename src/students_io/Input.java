@@ -20,7 +20,7 @@ public class Input {
         this.filePath = filePath;
     }
 
-    public Student read() throws IOException, ClassNotFoundException {
+    public Student read() {
         File file = new File(filePath);
         ObjectInputStream ois = null;
         Student student = null;
@@ -35,7 +35,12 @@ public class Input {
             e.printStackTrace();
         } finally {
             if (ois != null) {
-                ois.close();
+                try {
+                    ois.close();
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
             }
         }
         return student;

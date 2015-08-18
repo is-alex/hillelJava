@@ -5,7 +5,7 @@ import students.Student;
 
 import java.io.*;
 
-public class Output {
+public class Output  {
 
     private String filePath;
 
@@ -20,7 +20,7 @@ public class Output {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-    public void write(Student student) throws IOException {
+    public void write(Student student)  {
         File file = new File(filePath);
         ObjectOutputStream oos = null;
         try {
@@ -32,7 +32,12 @@ public class Output {
             e.printStackTrace();
         } finally {
             if (oos != null) {
-                oos.close();
+                try {
+                    oos.close();
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
             }
         }
     }
