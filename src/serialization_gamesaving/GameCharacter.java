@@ -10,6 +10,7 @@ public class GameCharacter implements Serializable {
     private String name;
     private CharacterType type;
     private String[] weapons;
+
     public GameCharacter(int power, String name, CharacterType type, String[] weapons) {
         this.power = power;
         this.name = name;
