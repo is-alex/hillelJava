@@ -18,35 +18,35 @@ public class App {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         Type listOfGameCharacters = new TypeToken<List<GameCharacter>>(){}.getType();
 //save
-        GameCharacter firstPlayer =
-                new GameCharacter(100,"Legolas", elf,new String[]{"sword", "bow"});
-        GameCharacter secondPlayer =
-                new GameCharacter(85,"Ork", ork, new String[]{"hands", "axe"});
-
-        List<GameCharacter> list = new ArrayList<>();
-        list.add(firstPlayer);
-        list.add(secondPlayer);
-        String json = gson.toJson(list, listOfGameCharacters);
-
-        try {
-            FileOutputStream out = new FileOutputStream("save.json");
-            writer = new OutputStreamWriter(out);
-            writer.write(json);
-
-        } catch(IOException e) {
-            System.err.println("Can't write to disk!");
-            e.printStackTrace();
-
-        } finally {
-            if (writer != null) {
-                try {
-                    writer.close();
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                }
-            }
-        }
+//        GameCharacter firstPlayer =
+//                new GameCharacter(100,"Legolas", elf,new String[]{"sword", "bow"});
+//        GameCharacter secondPlayer =
+//                new GameCharacter(85,"Ork", ork, new String[]{"hands", "axe"});
+//
+//        List<GameCharacter> list = new ArrayList<>();
+//        list.add(firstPlayer);
+//        list.add(secondPlayer);
+//        String json = gson.toJson(list, listOfGameCharacters);
+//
+//        try {
+//            FileOutputStream out = new FileOutputStream("save.json");
+//            writer = new OutputStreamWriter(out);
+//            writer.write(json);
+//
+//        } catch(IOException e) {
+//            System.err.println("Can't write to disk!");
+//            e.printStackTrace();
+//
+//        } finally {
+//            if (writer != null) {
+//                try {
+//                    writer.close();
+//                }
+//                catch (IOException e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 
 //restore
         GameCharacter restoredFirstPlayer = null;
