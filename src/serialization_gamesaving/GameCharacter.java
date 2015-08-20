@@ -10,12 +10,29 @@ public class GameCharacter implements Serializable {
     private String name;
     private CharacterType type;
     private String[] weapons;
+    private int mana;
 
-    public GameCharacter(int power, String name, CharacterType type, String[] weapons) {
+    public GameCharacter(int power, String name, CharacterType type, String[] weapons, int mana) {
         this.power = power;
         this.name = name;
         this.type = type;
         this.weapons = weapons;
+        this.mana = mana;
+    }
+
+//    public GameCharacter(int power, String name, CharacterType type, String[] weapons) {
+//        this.power = power;
+//        this.name = name;
+//        this.type = type;
+//        this.weapons = weapons;
+//    }
+
+    public int getMana() {
+        return mana;
+    }
+
+    public void setMana(int mana) {
+        this.mana = mana;
     }
     public String getName() {
         return name;
@@ -41,6 +58,7 @@ public class GameCharacter implements Serializable {
     public void setWeapons(String[] weapons) {
         this.weapons = weapons;
     }
+
     @Override
     public String toString() {
         return "GameCharacter{" +
@@ -48,6 +66,7 @@ public class GameCharacter implements Serializable {
                 ", name='" + name + '\'' +
                 ", type=" + type +
                 ", weapons=" + Arrays.toString(weapons) +
+                ", mana=" + mana +
                 '}';
     }
 }
