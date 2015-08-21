@@ -1,6 +1,5 @@
 package students;
 
-
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -10,8 +9,6 @@ public class Student implements Serializable {
     private int id;
     private String surname;
     private int[] marks;
-
-
 
     public Student(int i, String s, int[] m) {
         id = i;
@@ -80,4 +77,5 @@ public class Student implements Serializable {
                 ", surname='" + surname + '\'' +
                 ", marks=" + Arrays.toString(marks);
     }
+
 }

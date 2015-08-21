@@ -2,8 +2,10 @@ package students;
 
 
 public class Group {
+
     private Student[] students = new Student[10];
     private int numOfStudents = 0;
+
     public void addStudent(Student student) {
         if (numOfStudents < students.length - 1) {
             students[numOfStudents] = student;
