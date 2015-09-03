@@ -18,7 +18,7 @@ public class App {
     private static long count = 0;
     private static int loopCount = 0;
     private static final long PRINT_PERIOD = 1_000_000;
-    private static int minLength = 3;
+    private static int minLength = 2;
     private static int maxLength = 4;
     private static long size = estimateCombinations(maxLength);
     private static ArrayBlockingQueue<String> generatedWords = new ArrayBlockingQueue<>(NUMBER_OF_CORES * 8000);
@@ -37,8 +37,8 @@ public class App {
         ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
 
         Runnable producer = () -> {
-                System.out.println("Producer: " + Thread.currentThread().getName());
-                generateWords(CH, minLength, maxLength, generatedWords);
+            System.out.println("Producer: " + Thread.currentThread().getName());
+            generateWords(CH, minLength, maxLength, generatedWords);
             isProduced = true;
         };
         producerExecutorService.execute(producer);
@@ -66,6 +66,7 @@ public class App {
                     isRunning = false;
                     return;
                 } else if (isProduced && generatedWords.isEmpty()){
+                    isRunning = false;
                     System.out.println("No matches.");
                 }
 
@@ -94,14 +95,13 @@ public class App {
                     //System.out.println((new String(result, 0, length)));
                     printStatus();
                 } catch (InterruptedException e) {
-                    if (!isRunning && Thread.currentThread().isInterrupted()) ;
-                    return; //FIXME!
+                    if (!isRunning ) {
+                        return;
+                    }//FIXME!
                 }
 
                 for (updateIndex = (length - 1); (updateIndex != -1) && ++index[updateIndex] == input.length;
-                     result[updateIndex] = input[0], index[updateIndex] = 0, updateIndex--)
-                    ;
-
+                     result[updateIndex] = input[0], index[updateIndex] = 0, updateIndex--);
                 if (updateIndex != -1) result[updateIndex] = input[index[updateIndex]];
             }
             while (updateIndex != -1);
