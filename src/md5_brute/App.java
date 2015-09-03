@@ -18,8 +18,8 @@ public class App {
     private static long count = 0;
     private static int loopCount = 0;
     private static final long PRINT_PERIOD = 10_000_000;
-    private static int minLength = 4;
-    private static int maxLength = 4;
+    private static int minLength = 9;
+    private static int maxLength = 12;
     private static long size = estimateCombinations(maxLength);
     private static ArrayBlockingQueue<String> generatedWords = new ArrayBlockingQueue<>(NUMBER_OF_CORES * 8000);
     public static volatile boolean isRunning = true;
