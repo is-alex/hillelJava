@@ -9,74 +9,86 @@ import java.util.concurrent.*;
 public class App {
     private static long start = System.currentTimeMillis();
     private static long mainStart = System.currentTimeMillis();
-    private final static char[] CH = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     // private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-    //private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!№;%:?*()_-+=~`.,/".toCharArray();
+    private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!№;%:?*()_-+=~`.,/".toCharArray();
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_-+=~`.,/".toCharArray();
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private static long count = 0;
     private static int loopCount = 0;
-    private static final long PRINT_PERIOD = 1_000_000;
-    private static int minLength = 2;
-    private static int maxLength = 2;
+    private static final long PRINT_PERIOD = 10_000_000;
+    private static int minLength = 4;
+    private static int maxLength = 4;
     private static long size = estimateCombinations(maxLength);
     private static ArrayBlockingQueue<String> generatedWords = new ArrayBlockingQueue<>(NUMBER_OF_CORES * 8000);
     public static volatile boolean isRunning = true;
     public static volatile boolean isProduced = false;
     public static ExecutorService producerExecutorService = Executors.newSingleThreadExecutor();
-    public static ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
+    //public static ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
+    public static ThreadPoolExecutor consumerExecutorService =
+            new ThreadPoolExecutor(0, 2147483647, 10L, TimeUnit.SECONDS, new SynchronousQueue());
+
 
     public static void main(String[] args) {
-        String md5 = "f016441d00c16c9b912d05e9d81d894d";
+        //String md5 = "f016441d00c16c9b912d05e9d81d894d";
         //String md5 = "5ebe2294ecd0e0f08eab7690d2a6ee69";
         //String md5 = "13d70e09909669272b19647c2a55dacb";
-        //String md5 = "5f50dfa5385e66ce46ad8d08a9c9be68";
+        String md5 = "5f50dfa5385e66ce46ad8d08a9c9be68";
         System.out.println("Number of possible combinations: " + size);
 
         Runnable producer = () -> {
             System.out.println("Producer: " + Thread.currentThread().getName());
             generateWords(CH, minLength, maxLength, generatedWords);
             isProduced = true;
+            Thread.currentThread().interrupt();
         };
         producerExecutorService.execute(producer);
 
-        Runnable consumer = () -> {
-            String testWord = null;
-            String result = null;
-            do {
-                try {
-                    testWord = generatedWords.take();
-                     System.out.println(Thread.currentThread().getName()+" generatedWords.take() " + testWord);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                }
-                result = hash(testWord);
-
-                if (result.equals(md5)) {
-                    long totalTime = System.currentTimeMillis() - mainStart;
-                    System.out.println("Consumer: " + Thread.currentThread().getName() +
-                            "; Result found in: " + totalTime + " ms. Password is: " + testWord + ", hash: " + result);
-
-                    producerExecutorService.shutdownNow();
-                    consumerExecutorService.shutdownNow();
-                    isRunning = false;
-                    return;
-                } else if (isProduced && generatedWords.isEmpty()){
-                    isRunning = false;
-                    System.out.println("No matches.");
-
-                }
-
-            } while (isRunning);
-        };
-
         for (int i = 0; i < (NUMBER_OF_CORES * 8); i++) {
-            consumerExecutorService.execute(consumer);
+            consumerExecutorService.execute(() -> {
+                String testWord = null;
+                String result = null;
+                do {
+                    try {
+                        testWord = generatedWords.take();
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                    result = hash(testWord);
+
+                    if (result.equals(md5)) {
+                        long totalTime = System.currentTimeMillis() - mainStart;
+                        System.out.println("Consumer: " + Thread.currentThread().getName() +
+                                "; Result found in: " + totalTime + " ms. Password is: " + testWord + ", hash: " + result);
+//                        producerExecutorService.shutdownNow();
+//                        consumerExecutorService.shutdownNow();
+                        isRunning = false;
+                        System.exit(0);//fixme!
+
+                    } else if (isProduced && generatedWords.isEmpty()) {
+                        isRunning = false;
+                        System.out.println("No matches.");
+                        System.exit(0);//fixme!
+                    }
+
+                } while (isRunning);
+            });
         }
 
         producerExecutorService.shutdown();
+        try {
+            producerExecutorService.awaitTermination(200, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         consumerExecutorService.shutdown();
+        try {
+            consumerExecutorService.awaitTermination(200, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void generateWords(char[] input, int minLength, int maxLength, ArrayBlockingQueue<String> queue) {
@@ -99,7 +111,8 @@ public class App {
                 }
 
                 for (updateIndex = (length - 1); (updateIndex != -1) && ++index[updateIndex] == input.length;
-                     result[updateIndex] = input[0], index[updateIndex] = 0, updateIndex--);
+                     result[updateIndex] = input[0], index[updateIndex] = 0, updateIndex--)
+                    ;
                 if (updateIndex != -1) result[updateIndex] = input[index[updateIndex]];
             }
             while (updateIndex != -1);
@@ -112,11 +125,11 @@ public class App {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] messageDigest = md.digest(input.getBytes());
             BigInteger number = new BigInteger(1, messageDigest);
-            StringBuilder hashtext = new StringBuilder();
-            hashtext.append(number.toString(16));
-            while (hashtext.length() < 32)
-                hashtext.append("0");
-            return hashtext.toString().toLowerCase();
+            StringBuilder hashText = new StringBuilder();
+            hashText.append(number.toString(16));
+            while (hashText.length() < 32)
+                hashText.append("0");
+            return hashText.toString().toLowerCase();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -129,7 +142,9 @@ public class App {
             long speed = (PRINT_PERIOD / duration) * 1000;
             long remainingHours = size / speed / 3600;
 
-            System.out.println(count + " items processed in " + duration + " ms. Speed: " + speed + " p/s. Est. time remaining "
+            System.out.println(count + " items processed in "
+                    + duration + " ms. Speed: "
+                    + speed + " p/s. Est. time remaining "
                     + remainingHours + " h.");
             start = System.currentTimeMillis();
             System.out.println("current queue size: " + generatedWords.size());
