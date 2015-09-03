@@ -19,22 +19,20 @@ public class App {
     private static int loopCount = 0;
     private static final long PRINT_PERIOD = 1_000_000;
     private static int minLength = 2;
-    private static int maxLength = 4;
+    private static int maxLength = 2;
     private static long size = estimateCombinations(maxLength);
     private static ArrayBlockingQueue<String> generatedWords = new ArrayBlockingQueue<>(NUMBER_OF_CORES * 8000);
     public static volatile boolean isRunning = true;
     public static volatile boolean isProduced = false;
-
+    public static ExecutorService producerExecutorService = Executors.newSingleThreadExecutor();
+    public static ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
 
     public static void main(String[] args) {
         String md5 = "f016441d00c16c9b912d05e9d81d894d";
         //String md5 = "5ebe2294ecd0e0f08eab7690d2a6ee69";
         //String md5 = "13d70e09909669272b19647c2a55dacb";
         //String md5 = "5f50dfa5385e66ce46ad8d08a9c9be68";
-
         System.out.println("Number of possible combinations: " + size);
-        ExecutorService producerExecutorService = Executors.newSingleThreadExecutor();
-        ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
 
         Runnable producer = () -> {
             System.out.println("Producer: " + Thread.currentThread().getName());
@@ -49,10 +47,9 @@ public class App {
             do {
                 try {
                     testWord = generatedWords.take();
-                    // System.out.println(Thread.currentThread().getName()+"generatedWords.take() " + testWord);
+                     System.out.println(Thread.currentThread().getName()+" generatedWords.take() " + testWord);
                 } catch (InterruptedException e) {
-                    if (!isRunning && Thread.currentThread().isInterrupted())  //FIXME?
-                    return;
+                    Thread.currentThread().interrupt();
                 }
                 result = hash(testWord);
 
@@ -68,6 +65,7 @@ public class App {
                 } else if (isProduced && generatedWords.isEmpty()){
                     isRunning = false;
                     System.out.println("No matches.");
+
                 }
 
             } while (isRunning);
@@ -77,6 +75,8 @@ public class App {
             consumerExecutorService.execute(consumer);
         }
 
+        producerExecutorService.shutdown();
+        consumerExecutorService.shutdown();
     }
 
     public static void generateWords(char[] input, int minLength, int maxLength, ArrayBlockingQueue<String> queue) {
@@ -95,9 +95,7 @@ public class App {
                     //System.out.println((new String(result, 0, length)));
                     printStatus();
                 } catch (InterruptedException e) {
-                    if (!isRunning ) {
-                        return;
-                    }//FIXME!
+                    Thread.currentThread().interrupt();
                 }
 
                 for (updateIndex = (length - 1); (updateIndex != -1) && ++index[updateIndex] == input.length;
@@ -134,7 +132,6 @@ public class App {
             System.out.println(count + " items processed in " + duration + " ms. Speed: " + speed + " p/s. Est. time remaining "
                     + remainingHours + " h.");
             start = System.currentTimeMillis();
-
             System.out.println("current queue size: " + generatedWords.size());
         }
     }
