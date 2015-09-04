@@ -6,24 +6,29 @@ public class TestApp {
         String string = "AA";
         StringBuilder stringBuilder = new StringBuilder("BB");
         int numOfIterations = 100_000;
-        testString(string,numOfIterations);
-        testStringBuilder(stringBuilder,numOfIterations);
+
+        long start = System.currentTimeMillis();
+        String newString = testString(string,numOfIterations);
+        System.out.println("String: " + (System.currentTimeMillis() - start) + " ms.");
+
+        start = System.currentTimeMillis();
+        String newString2 = testStringBuilder(stringBuilder,numOfIterations);
+        System.out.println("StringBuilder: " + (System.currentTimeMillis() - start) + " ms.");
     }
 
-    public static void testString(String string, int numOfIterations){
-        long start = System.currentTimeMillis();
+    public static String testString(String string, int numOfIterations){
         for (int i = 0; i<numOfIterations; i++){
             string += "test";
         }
-        System.out.println("String: " + (System.currentTimeMillis() - start) + " ms.");
+        return string;
     }
 
-    public static void testStringBuilder(StringBuilder stringBuilder, int numOfIterations){
-        long start = System.currentTimeMillis();
+    public static String testStringBuilder(StringBuilder stringBuilder, int numOfIterations){
         for (int i = 0; i<numOfIterations; i++){
             stringBuilder.append("test");
+
         }
-        System.out.println("StringBuilder: " + (System.currentTimeMillis() - start) + " ms.");
+        return stringBuilder.toString();
 
     }
 }
