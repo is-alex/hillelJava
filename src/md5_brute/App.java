@@ -10,32 +10,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class App {
     private static long start = System.currentTimeMillis();
     private static long mainStart = System.currentTimeMillis();
-    private final static char[] CH = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     // private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!№;%:?*()_-+=~`.,/".toCharArray();
-    //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_-+=~`.,/".toCharArray();
+    private final static char[] CH = "abcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_-+=~`.,/".toCharArray();
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private static long count = 0;
-    private static final long PRINT_PERIOD = 1_000_000;
+    private static final long PRINT_PERIOD = 10_000_000;
     private static int minLength = 1;
-    private static int maxLength = 4;
+    private static int maxLength = 14;
     private static long size = estimateCombinations(maxLength);
-    private static ArrayBlockingQueue<String> generatedWords = new ArrayBlockingQueue<>(NUMBER_OF_CORES * 8000);
+    private static ArrayBlockingQueue<String> generatedWords = new ArrayBlockingQueue<>(NUMBER_OF_CORES * 8_000_000);
     public static AtomicBoolean isRunning = new AtomicBoolean(true);
     public static AtomicBoolean isProduced = new AtomicBoolean(false);
     public static AtomicBoolean noResults = new AtomicBoolean(false);
     public static ExecutorService producerExecutorService = Executors.newSingleThreadExecutor();
-    //public static ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
-    public static ThreadPoolExecutor consumerExecutorService =
-            new ThreadPoolExecutor(0, 2147483647, 10L, TimeUnit.SECONDS, new SynchronousQueue());
+    public static ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
 
 
     public static void main(String[] args) {
         //String md5 = "f016441d00c16c9b912d05e9d81d894d";
-        String md5 = "5ebe2294ecd0e0f08eab7690d2a6ee69";
+        //String md5 = "5ebe2294ecd0e0f08eab7690d2a6ee69";
         //String md5 = "13d70e09909669272b19647c2a55dacb";
-        //String md5 = "5f50dfa5385e66ce46ad8d08a9c9be68";
+        String md5 = "5f50dfa5385e66ce46ad8d08a9c9be68";
         System.out.println("Number of possible combinations: " + size);
 
         Runnable producer = () -> {
