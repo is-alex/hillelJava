@@ -9,17 +9,17 @@ import java.util.concurrent.*;
 public class App {
     private static long start = System.currentTimeMillis();
     private static long mainStart = System.currentTimeMillis();
-    //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    private final static char[] CH = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     // private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-    private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!№;%:?*()_-+=~`.,/".toCharArray();
+    //private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!№;%:?*()_-+=~`.,/".toCharArray();
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_-+=~`.,/".toCharArray();
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private static long count = 0;
     private static int loopCount = 0;
     private static final long PRINT_PERIOD = 1_000_000;
     private static int minLength = 1;
-    private static int maxLength = 12;
+    private static int maxLength = 4;
     private static long size = estimateCombinations(maxLength);
     private static ArrayBlockingQueue<String> generatedWords = new ArrayBlockingQueue<>(NUMBER_OF_CORES * 8000);
     public static volatile boolean isRunning = true;
@@ -31,10 +31,10 @@ public class App {
 
 
     public static void main(String[] args) {
-        //String md5 = "f016441d00c16c9b912d05e9d81d894d";
+        String md5 = "f016441d00c16c9b912d05e9d81d894d";
         //String md5 = "5ebe2294ecd0e0f08eab7690d2a6ee69";
         //String md5 = "13d70e09909669272b19647c2a55dacb";
-        String md5 = "5f50dfa5385e66ce46ad8d08a9c9be68";
+        //String md5 = "5f50dfa5385e66ce46ad8d08a9c9be68";
         System.out.println("Number of possible combinations: " + size);
 
         Runnable producer = () -> {
@@ -49,7 +49,7 @@ public class App {
             consumerExecutorService.execute(() -> {
                 String testWord = null;
                 String result = null;
-                do {
+                while (isRunning) {
                     try {
                         testWord = generatedWords.take();
                     } catch (InterruptedException e) {
@@ -61,18 +61,17 @@ public class App {
                         long totalTime = System.currentTimeMillis() - mainStart;
                         System.out.println("Consumer: " + Thread.currentThread().getName() +
                                 "; Result found in: " + totalTime + " ms. Password is: " + testWord + ", hash: " + result);
-//                        producerExecutorService.shutdownNow();
-//                        consumerExecutorService.shutdownNow();
                         isRunning = false;
-                        System.exit(0);//fixme!
+                        producerExecutorService.shutdownNow();
+                        consumerExecutorService.shutdownNow();
 
                     } else if (isProduced && generatedWords.isEmpty()) {
                         isRunning = false;
                         System.out.println("No matches.");
-                        System.exit(0);//fixme!
+                        System.exit(-1);//fixme!
                     }
 
-                } while (isRunning);
+                }
             });
         }
 
