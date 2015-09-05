@@ -16,7 +16,6 @@ public class App {
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_-+=~`.,/".toCharArray();
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private static long count = 0;
-    private static int loopCount = 0;
     private static final long PRINT_PERIOD = 1_000_000;
     private static int minLength = 1;
     private static int maxLength = 4;
