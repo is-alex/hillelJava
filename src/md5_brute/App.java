@@ -28,7 +28,6 @@ public class App {
     public static ExecutorService producerExecutorService = Executors.newSingleThreadExecutor();
     public static ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
 
-
     public static void main(String[] args) {
         //String md5 = "f016441d00c16c9b912d05e9d81d894d";
         //String md5 = "5ebe2294ecd0e0f08eab7690d2a6ee69";
@@ -73,7 +72,9 @@ public class App {
                     }
 
                 }
+
             });
+
         }
 
         producerExecutorService.shutdown();
@@ -89,6 +90,7 @@ public class App {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
     public static void generateWords(char[] input, int minLength, int maxLength, ArrayBlockingQueue<String> queue) {
@@ -117,6 +119,7 @@ public class App {
             }
             while (updateIndex != -1);
         }
+
     }
 
 
@@ -133,6 +136,7 @@ public class App {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+
     }
 
     private static void printStatus() {
@@ -140,12 +144,12 @@ public class App {
         if (count % PRINT_PERIOD == 0) {
             long duration = System.currentTimeMillis() - start;
             long speed = (PRINT_PERIOD / duration) * 1000;
-            long remainingHours = size / speed / 3600;
+            long remainingDays = size / speed / 3600 / 24;
 
             System.out.println(count + " items processed in "
                     + duration + " ms. Speed: "
                     + speed + " p/s. Est. time remaining "
-                    + remainingHours + " h.");
+                    + remainingDays + " days");
             start = System.currentTimeMillis();
             System.out.println("current queue size: " + generatedWords.size());
         }
