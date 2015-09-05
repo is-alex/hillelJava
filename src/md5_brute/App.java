@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class App {
     private static long start = System.currentTimeMillis();
@@ -21,8 +22,9 @@ public class App {
     private static int maxLength = 4;
     private static long size = estimateCombinations(maxLength);
     private static ArrayBlockingQueue<String> generatedWords = new ArrayBlockingQueue<>(NUMBER_OF_CORES * 8000);
-    public static volatile boolean isRunning = true;
-    public static volatile boolean isProduced = false;
+    public static AtomicBoolean isRunning = new AtomicBoolean(true);
+    public static AtomicBoolean isProduced = new AtomicBoolean(false);
+    public static AtomicBoolean noResults = new AtomicBoolean(false);
     public static ExecutorService producerExecutorService = Executors.newSingleThreadExecutor();
     //public static ExecutorService consumerExecutorService = Executors.newCachedThreadPool();
     public static ThreadPoolExecutor consumerExecutorService =
@@ -30,8 +32,8 @@ public class App {
 
 
     public static void main(String[] args) {
-        String md5 = "f016441d00c16c9b912d05e9d81d894d";
-        //String md5 = "5ebe2294ecd0e0f08eab7690d2a6ee69";
+        //String md5 = "f016441d00c16c9b912d05e9d81d894d";
+        String md5 = "5ebe2294ecd0e0f08eab7690d2a6ee69";
         //String md5 = "13d70e09909669272b19647c2a55dacb";
         //String md5 = "5f50dfa5385e66ce46ad8d08a9c9be68";
         System.out.println("Number of possible combinations: " + size);
@@ -39,7 +41,7 @@ public class App {
         Runnable producer = () -> {
             System.out.println("Producer: " + Thread.currentThread().getName());
             generateWords(CH, minLength, maxLength, generatedWords);
-            isProduced = true;
+            isProduced.set(true);
             Thread.currentThread().interrupt();
         };
         producerExecutorService.execute(producer);
@@ -48,7 +50,7 @@ public class App {
             consumerExecutorService.execute(() -> {
                 String testWord = null;
                 String result = null;
-                while (isRunning) {
+                while (isRunning.get()) {
                     try {
                         testWord = generatedWords.take();
                     } catch (InterruptedException e) {
@@ -60,14 +62,16 @@ public class App {
                         long totalTime = System.currentTimeMillis() - mainStart;
                         System.out.println("Consumer: " + Thread.currentThread().getName() +
                                 "; Result found in: " + totalTime + " ms. Password is: " + testWord + ", hash: " + result);
-                        isRunning = false;
+                        isRunning.set(false);
                         producerExecutorService.shutdownNow();
                         consumerExecutorService.shutdownNow();
 
-                    } else if (isProduced && generatedWords.isEmpty()) {
-                        isRunning = false;
-                        System.out.println("No matches.");
-                        System.exit(-1);//fixme!
+                    } else if (isProduced.get() && generatedWords.isEmpty() && !noResults.get()) {
+                        isRunning.set(false);
+                        noResults.set(true);
+                        System.out.println("Consumer: " + Thread.currentThread().getName() + ": no matches.");
+                        producerExecutorService.shutdownNow();
+                        consumerExecutorService.shutdownNow();
                     }
 
                 }
