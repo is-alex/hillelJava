@@ -22,7 +22,7 @@ public class SyncStack {
         }
 
         buffer.addElement(c);
-        this.notifyAll();
+        this.notify();
     }
 
     public synchronized char pop() {
@@ -33,7 +33,7 @@ public class SyncStack {
                 e.printStackTrace();
             }
         }
-        this.notifyAll();
+        this.notify();
         return (char) (buffer.remove(buffer.size() - 1));
     }
 

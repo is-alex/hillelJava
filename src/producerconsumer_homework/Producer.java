@@ -17,8 +17,11 @@ public class Producer implements Runnable {
         for (int i = 0; i < NUM_OF_ITERATIONS; i++) {
             c = (char) (Math.random() * 26 + 'A');
             syncStack.push(c);
-            System.out.print("Producer " + number + " " + c);
-            System.out.println(",  buffer size: "+syncStack.getBuffer().size());
+            System.out.println("Producer " + number + " " + c +
+                    ",  buffer size: " + syncStack.getBuffer().size());
+            if (syncStack.getBuffer().size() == syncStack.getBuffer().capacity()) {
+                System.out.println("Producer " + number + " is waiting...");
+            }
             try {
                 Thread.sleep((int) (Math.random() * 300));
             } catch (InterruptedException e) {
