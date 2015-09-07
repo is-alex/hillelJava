@@ -7,6 +7,10 @@ public class SyncStack {
 
     private Vector buffer = new Vector(400, 200);
 
+    public Vector getBuffer() {
+        return buffer;
+    }
+
     public synchronized void push(char c) {
 
         while (buffer.size() == buffer.capacity()) {
@@ -32,4 +36,5 @@ public class SyncStack {
         this.notifyAll();
         return (char) (buffer.remove(buffer.size() - 1));
     }
+
 }
