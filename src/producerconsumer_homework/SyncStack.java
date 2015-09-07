@@ -5,7 +5,7 @@ import java.util.Vector;
 
 public class SyncStack {
 
-    private Vector buffer = new Vector(400, 200);
+    private Vector buffer = new Vector(20, 200);
 
     public Vector getBuffer() {
         return buffer;

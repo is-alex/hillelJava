@@ -17,8 +17,8 @@ public class Producer implements Runnable {
         for (int i = 0; i < NUM_OF_ITERATIONS; i++) {
             c = (char) (Math.random() * 26 + 'A');
             syncStack.push(c);
-            System.out.println("Producer " + number + " " + c);
-
+            System.out.print("Producer " + number + " " + c);
+            System.out.println(",  buffer size: "+syncStack.getBuffer().size());
             try {
                 Thread.sleep((int) (Math.random() * 300));
             } catch (InterruptedException e) {
