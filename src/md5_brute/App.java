@@ -13,8 +13,8 @@ public class App {
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz".toCharArray();
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
     // private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
-    //private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!№;%:?*()_-+=~`.,/".toCharArray();
-    private final static char[] CH = "abcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_-+=~`.,/".toCharArray();
+    private final static char[] CH = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!№;%:?*()_-+=~`.,/".toCharArray();
+    //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz0123456789!№;%:?*()_-+=~`.,/".toCharArray();
     private static int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
     private static long count = 0;
     private static final long PRINT_PERIOD = 10_000_000;
@@ -106,7 +106,6 @@ public class App {
 
                 try {
                     queue.put(new String(result, 0, length));
-                    //System.out.println((new String(result, 0, length)));
                     printStatus();
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
