@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class App {
+public abstract class App {
     private static long start = System.currentTimeMillis();
     private static long mainStart = System.currentTimeMillis();
     //private final static char[] CH = "abcdefghijklmnopqrstuvwxyz".toCharArray();
