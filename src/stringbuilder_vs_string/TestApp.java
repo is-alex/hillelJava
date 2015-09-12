@@ -1,7 +1,7 @@
 package stringbuilder_vs_string;
 
 
-public class TestApp {
+public abstract class TestApp {
     public static void main(String[] args) {
         String string = "AA";
         StringBuilder stringBuilder = new StringBuilder("BB");
