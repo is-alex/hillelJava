@@ -17,11 +17,13 @@ public abstract class Students_App {
     private static final int maxNumOfMarks = 35;
 
     public static void main(String[] args) {
+
         try {
             createTable();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         for (int i = 0; i < 3; i++) {
             Student student = createRandomStudent();
             try {
@@ -30,6 +32,7 @@ public abstract class Students_App {
                 e.printStackTrace();
             }
         }
+
         try {
             getStudentsFromDB();
         } catch (SQLException e) {
