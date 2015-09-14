@@ -1,4 +1,5 @@
 package students;
+
 import maptesting.MapTest;
 
 import java.security.SecureRandom;
@@ -6,14 +7,14 @@ import java.sql.*;
 import java.util.Arrays;
 
 public abstract class Students_App {
-   private static final String JDBC_DRIVER = "org.postgresql.Driver";
-   private static final String DB_URL = "jdbc:postgresql://localhost:5432/students";
-   private static final String DB_USERNAME = "postgres";
-   private static final String DB_PASSWORD = "1";
-   private static final int minSurnameLength = 1;
-   private static final int maxSurnameLength = 50;
-   private static final  int minNumOfMarks = 0;
-   private static final  int maxNumOfMarks = 35;
+    private static final String JDBC_DRIVER = "org.postgresql.Driver";
+    private static final String DB_URL = "jdbc:postgresql://localhost:5432/students";
+    private static final String DB_USERNAME = "postgres";
+    private static final String DB_PASSWORD = "1";
+    private static final int minSurnameLength = 1;
+    private static final int maxSurnameLength = 50;
+    private static final int minNumOfMarks = 0;
+    private static final int maxNumOfMarks = 35;
 
     public static void main(String[] args) {
         try {
@@ -21,16 +22,23 @@ public abstract class Students_App {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        Student student = createRandomStudent();
+        for (int i = 0; i < 3; i++) {
+            Student student = createRandomStudent();
+            try {
+                saveStudentToDB(student);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         try {
-            saveStudentToDB(student);
+            getStudentsFromDB();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
-    private static Connection getConnection(){
+    private static Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName(JDBC_DRIVER);
@@ -74,21 +82,20 @@ public abstract class Students_App {
         }
     }
 
-    private static void saveStudentToDB (Student student) throws SQLException {
+    private static void saveStudentToDB(Student student) throws SQLException {
         Connection connection = null;
         Statement statement = null;
 
         String saveStudent = "INSERT INTO students (id, surname, marks) VALUES \n"
-                +"("+student.getId()
-                +", '"+student.getSurname()+"', '"
-                +Arrays.toString(student.getMarks())+"');";
+                + "(" + student.getId()
+                + ", '" + student.getSurname() + "', '"
+                + Arrays.toString(student.getMarks()) + "');";
 
         try {
             connection = getConnection();
             statement = connection.createStatement();
-
             statement.execute(saveStudent);
-            System.out.println("Inserted");
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -101,7 +108,40 @@ public abstract class Students_App {
         }
     }
 
-    private static Student createRandomStudent(){
+    private static void getStudentsFromDB() throws SQLException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String getStudent = "SELECT id, surname, marks FROM students";
+
+        try {
+            connection = getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(getStudent);
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String surname = resultSet.getString("surname");
+                String marks = resultSet.getString("marks");
+                System.out.println("id: " + id + ", surname: " + surname + ", marks " + marks);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    private static Student createRandomStudent() {
         SecureRandom random = new SecureRandom();
         return new Student(random.nextInt(Integer.MAX_VALUE),
                 MapTest.randomSurname(minSurnameLength, maxSurnameLength),
