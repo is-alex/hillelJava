@@ -1,8 +1,6 @@
 package students;
 
 import maptesting.MapTest;
-
-import java.security.SecureRandom;
 import java.sql.*;
 import java.util.Arrays;
 
@@ -24,8 +22,8 @@ public abstract class Students_App {
             e.printStackTrace();
         }
 
-        for (int i = 0; i < 3; i++) {
-            Student student = createRandomStudent();
+        for (int i = 1; i < 4; i++) {
+            Student student = createRandomStudent(i);
             try {
                 saveStudentToDB(student);
             } catch (SQLException e) {
@@ -33,10 +31,18 @@ public abstract class Students_App {
             }
         }
 
-        try {
-            getStudentsFromDB();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        for (int j = 1; j<4; j++) {
+            try {
+                Student newStudent = getStudentFromDB(j);
+
+                if (newStudent != null) {
+                    System.out.println(newStudent.toString());
+                } else {
+                    System.out.println("student with id "+j+" does not exist.");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -111,11 +117,12 @@ public abstract class Students_App {
         }
     }
 
-    private static void getStudentsFromDB() throws SQLException {
+    private static Student getStudentFromDB(int id) throws SQLException {
         Connection connection = null;
         Statement statement = null;
         ResultSet resultSet = null;
-        String getStudent = "SELECT id, surname, marks FROM students";
+        Student student = null;
+        String getStudent = ("SELECT surname, marks FROM students WHERE id = "+id+";");
 
         try {
             connection = getConnection();
@@ -123,10 +130,12 @@ public abstract class Students_App {
             resultSet = statement.executeQuery(getStudent);
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
                 String surname = resultSet.getString("surname");
-                String marks = resultSet.getString("marks");
-                System.out.println("id: " + id + ", surname: " + surname + ", marks " + marks);
+                String marksString = resultSet.getString("marks");
+
+                int[] marks = Arrays.stream(marksString.substring(1, marksString.length()-1).split(", "))
+                        .mapToInt(Integer::parseInt).toArray();
+                student = new Student(id,surname,marks);
             }
 
         } catch (SQLException e) {
@@ -142,11 +151,13 @@ public abstract class Students_App {
                 connection.close();
             }
         }
+        return student;
     }
 
-    private static Student createRandomStudent() {
-        SecureRandom random = new SecureRandom();
-        return new Student(random.nextInt(Integer.MAX_VALUE),
+
+
+    private static Student createRandomStudent(int id) {
+        return new Student(id,
                 MapTest.randomSurname(minSurnameLength, maxSurnameLength),
                 MapTest.randomMarks(minNumOfMarks, maxNumOfMarks));
     }
