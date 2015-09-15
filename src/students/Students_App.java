@@ -67,11 +67,11 @@ public abstract class Students_App {
         Statement statement = null;
 
         String createTable = "DROP TABLE IF EXISTS students;\n" +
-                "CREATE TABLE students (\n" +
-                "id int,\n" +
-                "surname varchar(100),\n" +
-                "marks varchar(10000),\n" +
-                "PRIMARY KEY (id)\n" +
+                "CREATE TABLE students (" +
+                "id int," +
+                "surname varchar(100)," +
+                "marks varchar(10000)," +
+                "PRIMARY KEY (id)" +
                 ");";
         try {
             connection = getConnection();
