@@ -1,5 +1,8 @@
 package dao_homework.factory;
 
+import dao_homework.factory.mysql.DbDaoFactory;
+import dao_homework.factory.xml.XmlDaoFactory;
+
 public abstract class DaoFactory {
     public enum DataSourceType{
         XML,
