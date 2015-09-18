@@ -1,12 +1,23 @@
 package dao_homework;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.List;
 
+@Entity
+@Table (name= "test.customer")
 public class Customer {
+    @Id
+    @Column(name = "customer_id")
     private long id;
+    @Column(name = "customer_firstname")
     private String firstName;
+    @Column(name = "customer_lastname")
     private String lastName;
-    private List<Account> accounts;
+    @Column(name = "customer_accounts")
+    transient private List<Account> accounts;
 
     public Customer(long id, String firstName, String lastName, List<Account> accounts) {
         this.id = id;

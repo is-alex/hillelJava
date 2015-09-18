@@ -46,6 +46,7 @@ public class App {
 
         customerDao.insertCustomer(customerOne);
         customerDao.insertCustomer(customerTwo);
+        customerDao.deleteCustomer(customerTwo);
         Customer c = customerDao.findCustomer(1);
 
     }
