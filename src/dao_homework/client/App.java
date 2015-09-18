@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class App {
     public static void main(String[] args) {
 
-//        init();
+        //init();
 
         Account accountOne = new Account(1);
         accountOne.setBalance(BigDecimal.valueOf(10.1));
@@ -55,8 +55,8 @@ public class App {
         try {
             con = DriverManager.getConnection(
                     "jdbc:postgresql://localhost/test",
-                    "anaconda",
-                    "anaconda");
+                    "postgres",
+                    "1");
         } catch (SQLException e) {
             e.printStackTrace();
         }

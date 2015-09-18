@@ -9,8 +9,8 @@ import java.util.Collection;
 
 
 public class DbAccountDao implements AccountDao {
-    private static final String USERNAME = "anaconda";
-    private static final String PASSWORD = "anaconda";
+    private static final String USERNAME = "postgres";
+    private static final String PASSWORD = "1";
 
     @Override
     public boolean insertAccount(Account account) {
