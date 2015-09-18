@@ -7,7 +7,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table (name= "test.customer")
+@Table (name = "test.customer")
 public class Customer {
     @Id
     @Column(name = "customer_id")
@@ -18,6 +18,9 @@ public class Customer {
     private String lastName;
     @Column(name = "customer_accounts")
     transient private List<Account> accounts;
+
+    public Customer() {
+    }
 
     public Customer(long id, String firstName, String lastName, List<Account> accounts) {
         this.id = id;
@@ -56,5 +59,15 @@ public class Customer {
 
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", accounts=" + accounts +
+                '}';
     }
 }

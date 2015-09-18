@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Arrays;
+import java.util.Collection;
 
 
 public class App {
@@ -31,6 +32,8 @@ public class App {
 
         Customer customerOne = new Customer(1, "Ivanov", "Ivan", Arrays.asList(new Account[]{accountOne, accountTwo}));
         Customer customerTwo = new Customer(2, "Petrov", "Peter", Arrays.asList(new Account[]{accountThree}));
+        Customer newCustomerTwo = new Customer(2, "Petrov-2", "Peter-2", Arrays.asList(new Account[]{accountThree}));
+        Customer customerThree = new Customer(3, "Smith", "Adam", Arrays.asList(new Account[]{accountThree}));
 
         DaoFactory daoFactory = DbDaoFactory.getDaoFactory(DaoFactory.DataSourceType.RDB);
 
@@ -39,16 +42,21 @@ public class App {
         accountDao.insertAccount(accountOne);
         accountDao.insertAccount(accountTwo);
         accountDao.insertAccount(accountThree);
-
         Account accountGotFromDataSource = accountDao.findAccount(3L);
-
         accountDao.deleteAccount(accountTwo);
+
 
         customerDao.insertCustomer(customerOne);
         customerDao.insertCustomer(customerTwo);
-        customerDao.deleteCustomer(customerTwo);
-        Customer c = customerDao.findCustomer(1);
+        customerDao.insertCustomer(customerThree);
 
+        customerDao.deleteCustomer(customerThree);
+
+        customerDao.updateCustomer(newCustomerTwo);
+        Customer c = customerDao.findCustomer(2);
+        System.out.println("Updated customer 2: " + c);
+        Collection<Customer> allCustomers =  customerDao.getCustomers();
+        System.out.println("All customers: " + allCustomers);
     }
 
     private static void init() {
