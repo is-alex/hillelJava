@@ -19,6 +19,7 @@ public class TestMyArrayList {
     }
     @Test
     public void isEmptyTest(){
+        myArrayList.add(555);
         assertFalse(myArrayList.isEmpty());
     }
 

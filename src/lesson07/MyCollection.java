@@ -3,8 +3,26 @@ package lesson07;
 
 public class MyCollection {
 
-    public Object [] collection;
-    public int size;
+    private Object [] collection;
+    private int size;
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public Object[] getCollection() {
+        return collection;
+    }
+
+    public void setCollection(Object[] collection) {
+        this.collection = collection;
+    }
+
+
 
     public MyCollection() {
     }
